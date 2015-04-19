@@ -8,19 +8,33 @@ Given(/^I enter my postcode of '(.*)$/) do |my_postcode|
   fill_in 'postcode', with: my_postcode
 end
 
-Given(/^I select '(.*)' from the distance drop down$/) do |distance_from_me|
-  select distance_from_me, from: 'radius'
-end
+Given(/^I select (.*) from the (.*) drop down$/) do |user_selection, dropdown|
+	puts "The dropdown variable is saved as: #{dropdown}"
 
-Given(/^I search for a Volkswagen make$/) do
-  pending # express the regexp above with the code you wish you had
-end
+	case dropdown
+	when 'distance'
+		dropdown_id = 'radius'
+	when 'make'
+		dropdown_id = 'searchVehiclesMake'
+	when 'model'
+		dropdown_id = 'searchVehiclesModel'
+	end
 
-Given(/^I search for a passat model$/) do
+	puts "The dropdown ID variable is saved as: #{dropdown_id}"
 
-  pending # express the regexp above with the code you wish you had
+  select user_selection, from: dropdown_id
 end
 
 When(/^I click search$/) do
-  pending # express the regexp above with the code you wish you had
+  click_button 'search'
+  sleep (1)
 end
+
+
+Then(/^I see EOS cars$/) do
+
+page.has_content?('EOS').should be true
+
+
+end
+
